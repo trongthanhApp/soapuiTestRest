@@ -7,6 +7,27 @@
 	<name>soapuiTestRest</name>
 	<description>soapuiTestRest</description>
 
+
+	<properties>
+		<endpointDefault>http://localhost:8080</endpointDefault>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>DEV</id>
+			<properties>
+				<hostNname>localhost</hostNname>
+				<endpoint>http://localhost:8080</endpoint>
+			</properties>
+		</profile>
+		<profile>
+			<id>INT</id>
+			<properties>
+				<hostNname>app.company.com</hostNname>
+				<endpoint>http://app.company.com</endpoint>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
