@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.app.project</groupId>
+	<artifactId>soapuiTestRest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>soapuiTestRest</name>
+	<description>soapuiTestRest</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+
+								<mkdir dir="${basedir}/target/projects" />
+								<copy todir="${basedir}/target/projects">
+									<fileset dir="${basedir}/projects">
+										<include name="**/*.xml" />
+									</fileset>
+								</copy>
+
+								<replace dir="${basedir}/target/projects">
+									<include name="**/*.xml" />
+									<replacefilter token="${endpointDefault}" value="${endpoint}" />
+								</replace>
+
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>eviware</groupId>
+				<artifactId>maven-soapui-plugin</artifactId>
+				<version>4.0.1</version>
+				<configuration>
+					<projectFile>${basedir}/target/projects/common/app-soapui-project.xml</projectFile>
+					<host>${hostNname}</host>
+					<outputFolder>${basedir}/target/surefire-reports</outputFolder>
+					<testFailIgnore>false</testFailIgnore>
+					<junitReport>true</junitReport>
+					<printReport>false</printReport>
+					<exportAll>true</exportAll>
+					<!-- Conf specifique au projet -->
+					<settingsFile>${basedir}/conf/soapui-settings.xml</settingsFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>Tests SOAPUI</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
